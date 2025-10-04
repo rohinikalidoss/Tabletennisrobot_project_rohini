@@ -1,0 +1,270 @@
+<mujoco model="professional_table_tennis_launcher">
+    <compiler angle="degree" coordinate="local"/>
+    <option timestep="0.001" gravity="0 0 -9.81" viscosity="0.0001"/>
+    <size njmax="1000" nconmax="100"/>
+
+    <default>
+        <geom contype="1" conaffinity="1"/>
+    </default>
+<asset>
+        <!-- Professional Materials -->
+        <material name="table_mat" rgba="0.0 0.3 0.8 1"/>
+        <material name="ball_mat" rgba="1.0 1.0 1.0 1"/>
+        <material name="net_mat" rgba="0.2 0.2 0.2 1"/>
+        
+        <!-- Premium Ball Launcher Materials -->
+        <material name="premium_black" rgba="0.15 0.15 0.15 1"/>
+        <material name="metallic_silver" rgba="0.8 0.8 0.85 1"/>
+        <material name="bright_orange" rgba="1.0 0.4 0.0 1"/>
+        <material name="professional_gray" rgba="0.5 0.5 0.5 1"/>
+        <material name="mesh_pattern" rgba="0.25 0.25 0.25 0.9"/>
+        <material name="wheel_rubber" rgba="0.2 0.2 0.2 1"/>
+        <material name="base_steel" rgba="0.6 0.6 0.65 1"/>
+        <material name="barrel_chrome" rgba="0.9 0.9 0.95 1"/>
+        <material name="control_panel" rgba="0.1 0.1 0.12 1"/>
+        <material name="led_indicator" rgba="0.0 1.0 0.0 1"/>
+        <material name="pure_black" rgba="0 0 0 1"/>
+        
+        <!-- Texture Materials -->
+        <material name="brushed_metal" rgba="0.7 0.7 0.75 1"/>
+        <material name="carbon_fiber" rgba="0.1 0.1 0.15 1"/>
+        <texture name="yellow_red_texture" type="2d" builtin="checker" 
+           rgb1="1.0 1.0 0.0" rgb2="0.8 0.0 0.0" 
+           width="256" height="128"/>
+        <material name="yellow_red_material" texture="yellow_red_texture" 
+            specular="0.5" shininess="0.8" reflectance="0.15"/>
+
+
+    </asset>
+
+    <worldbody>
+        <!-- Professional Lighting Setup -->
+        <light directional="true" cutoff="100" exponent="1" diffuse="1 1 1" 
+               specular="0.3 0.3 0.3" pos="3 3 4" dir="-1 -1 -1"/>
+        <light directional="true" cutoff="100" exponent="1" diffuse="0.6 0.6 0.8" 
+               specular="0.1 0.1 0.1" pos="-2 2 3" dir="1 -1 -1"/>
+        
+        <!-- Professional Court Floor -->
+        <geom name="court_floor" type="plane" size="8 6 0.05" rgba="0.2 0.4 0.6 1"/>
+        
+        <!-- Professional Table Tennis Table -->
+        <body name="table" pos="1.37 0 0.76">
+            <geom name="table_surface" type="box" size="1.37 0.7625 0.025" material="table_mat"/>
+            <body name="hit_marker" pos="0 0 0">
+    <geom name="marker" type="sphere" size="0.02" rgba="1 0 0 1"/>
+</body>
+
+            
+            <!-- Professional Table Legs with Cross Bracing -->
+            <geom name="leg_fl" type="cylinder" size="0.035 0.76" pos="1.30 0.70 -0.76" material="metallic_silver"/>
+            <geom name="leg_fr" type="cylinder" size="0.035 0.76" pos="-1.30 0.70 -0.76" material="metallic_silver"/>
+            <geom name="leg_bl" type="cylinder" size="0.035 0.76" pos="1.30 -0.70 -0.76" material="metallic_silver"/>
+            <geom name="leg_br" type="cylinder" size="0.035 0.76" pos="-1.30 -0.70 -0.76" material="metallic_silver"/>
+            
+            <!-- Cross Bracing for Stability -->
+            <geom name="brace_front" type="box" size="1.25 0.02 0.02" pos="0 0.70 -0.40" material="metallic_silver"/>
+            <geom name="brace_back" type="box" size="1.25 0.02 0.02" pos="0 -0.70 -0.40" material="metallic_silver"/>
+            <geom name="brace_left" type="box" size="0.02 0.65 0.02" pos="1.30 0 -0.40" material="metallic_silver"/>
+            <geom name="brace_right" type="box" size="0.02 0.65 0.02" pos="-1.30 0 -0.40" material="metallic_silver"/>
+        </body>
+        
+        <!-- Professional Net Assembly -->
+        <body name="net_assembly" pos="1.37 0 0.9125">
+            <geom name="net_mesh" type="box" size="0.02 0.76 0.0762" material="net_mat"/>
+            <geom name="net_post_left" type="cylinder" size="0.015 0.08" pos="0 0.77 0" material="metallic_silver"/>
+            <geom name="net_post_right" type="cylinder" size="0.015 0.08" pos="0 -0.77 0" material="metallic_silver"/>
+            <geom name="net_clamp_left" type="box" size="0.03 0.02 0.01" pos="0 0.77 0.07" material="premium_black"/>
+            <geom name="net_clamp_right" type="box" size="0.03 0.02 0.01" pos="0 -0.77 0.07" material="premium_black"/>
+        </body>
+
+        <!-- PROFESSIONAL BALL LAUNCHER MACHINE -->
+        <body name="launcher_machine" pos="-2.8 0 0.98" euler="0 0 -90">
+            
+            <!-- Main Professional Housing -->
+            <geom name="main_housing" type="box" size="0.20 0.15 0.12" 
+                  pos="0 0 0" material="premium_black" contype="0" conaffinity="0"/>
+            
+            <!-- Decorative Side Panels -->
+            <geom name="side_panel_left" type="box" size="0.18 0.02 0.10" 
+                  pos="0 0.13 0" material="brushed_metal" contype="0" conaffinity="0"/>
+            <geom name="side_panel_right" type="box" size="0.18 0.02 0.10" 
+                  pos="0 -0.13 0" material="brushed_metal" contype="0" conaffinity="0"/>
+            
+            <!-- Professional Logo/Brand Panel -->
+            <geom name="brand_panel" type="box" size="0.12 0.05 0.001" 
+                  pos="0 0 0.11" material="metallic_silver" contype="0" conaffinity="0"/>
+            
+            <!-- CENTER TARGETING SYSTEM -->
+            <geom name="center_circle" type="cylinder" size="0.035 0.012" 
+                  pos="0 0.13 0" euler="90 0 0" material="bright_orange" 
+                  contype="1" conaffinity="1"/>
+            
+            <!-- Professional Targeting Grid -->
+            <geom name="target_v1" type="box" size="0.0008 0.012 0.05" 
+                  pos="-0.02 0.142 0" material="mesh_pattern"/>
+            <geom name="target_v2" type="box" size="0.0008 0.012 0.05" 
+                  pos="0.02 0.142 0" material="mesh_pattern"/>
+            <geom name="target_v3" type="box" size="0.0008 0.012 0.05" 
+                  pos="0 0.142 0" material="mesh_pattern"/>
+            <geom name="target_h1" type="box" size="0.05 0.012 0.0008" 
+                  pos="0 0.142 -0.02" material="mesh_pattern"/>
+            <geom name="target_h2" type="box" size="0.05 0.012 0.0008" 
+                  pos="0 0.142 0.02" material="mesh_pattern"/>
+            <geom name="target_h3" type="box" size="0.05 0.012 0.0008" 
+                  pos="0 0.142 0" material="mesh_pattern"/>
+            
+            <!-- Professional Launch Barrel -->
+            <geom name="launch_barrel" type="cylinder" size="0.03 0.20" 
+                  pos="-2.5   0.    1.25" euler="76 0 0" material="barrel_chrome"
+                  contype="1" conaffinity="1"/>
+            
+            <!-- Barrel Stabilizer Ring -->
+            <geom name="barrel_ring" type="cylinder" size="0.032 0.008" 
+                  pos="0 0.24 0.055" euler="75 0 0" material="premium_black"
+                  contype="0" conaffinity="0"/>
+            
+            <!-- PROFESSIONAL WHEEL SYSTEM (3 Wheels) -->
+            
+            <!-- Wheel 1 - Top Position -->
+            <body name="launch_wheel_1" pos="0 0.13 0.08">
+                <geom name="wheel_1_body" type="box" size="0.025 0.018 0.06" 
+                      euler="18 0 0" material="wheel_rubber" contype="1" conaffinity="1"/>
+                <geom name="wheel_1_rim" type="box" size="0.027 0.020 0.062" 
+                      euler="18 0 0" material="pure_black" contype="0" conaffinity="0"/>
+                <joint name="wheel_1_joint" type="hinge" axis="0 1 0" pos="0 0 0"/>
+            </body>
+            
+            <!-- Wheel 2 - Left Position -->
+            <body name="launch_wheel_2" pos="-0.07 0.13 0">
+                <geom name="wheel_2_body" type="box" size="0.06 0.018 0.025" 
+                      euler="0 18 90" material="wheel_rubber" contype="1" conaffinity="1"/>
+                <geom name="wheel_2_rim" type="box" size="0.062 0.020 0.027" 
+                      euler="0 18 90" material="pure_black" contype="0" conaffinity="0"/>
+                <joint name="wheel_2_joint" type="hinge" axis="1 0 0" pos="0 0 0"/>
+            </body>
+            
+            <!-- Wheel 3 - Right Position -->
+            <body name="launch_wheel_3" pos="0.07 0.13 0">
+                <geom name="wheel_3_body" type="box" size="0.06 0.018 0.025" 
+                      euler="0 -18 -90" material="wheel_rubber" contype="1" conaffinity="1"/>
+                <geom name="wheel_3_rim" type="box" size="0.062 0.020 0.027" 
+                      euler="0 -18 -90" material="pure_black" contype="0" conaffinity="0"/>
+                <joint name="wheel_3_joint" type="hinge" axis="1 0 0" pos="0 0 0"/>
+            </body>
+            
+            <!-- Professional Control Panel -->
+            <geom name="control_panel" type="box" size="0.08 0.06 0.02" 
+                  pos="0 -0.08 0.08" material="control_panel" contype="0" conaffinity="0"/>
+            
+            <!-- LED Status Indicators -->
+            <geom name="led_power" type="sphere" size="0.008" 
+                  pos="-0.04 -0.08 0.09" material="led_indicator" contype="0" conaffinity="0"/>
+            <geom name="led_ready" type="sphere" size="0.008" 
+                  pos="0 -0.08 0.09" material="bright_orange" contype="0" conaffinity="0"/>
+            <geom name="led_launch" type="sphere" size="0.008" 
+                  pos="0.04 -0.08 0.09" rgba="1.0 0.0 0.0 1" contype="0" conaffinity="0"/>
+            
+            <!-- Professional Support Structure -->
+            <geom name="main_support" type="cylinder" size="0.02 0.30" 
+                  pos="0 0 -0.49" material="base_steel" contype="0" conaffinity="0"/>
+            
+            <!-- Height Adjustment Mechanism -->
+            <geom name="height_adjuster" type="cylinder" size="0.025 0.08" 
+                  pos="0 0 -0.45" material="premium_black" contype="0" conaffinity="0"/>
+            
+            <!-- Professional Base Platform -->
+            <geom name="base_platform" type="cylinder" size="0.15 0.05" 
+                  pos="0 0 -0.88" material="base_steel" contype="0" conaffinity="0"/>
+            
+            <!-- Anti-tip Stabilizers -->
+            <geom name="stabilizer_front" type="box" size="0.03 0.02 0.01" 
+                  pos="0.12 0 -0.98" material="premium_black" contype="0" conaffinity="0"/>
+            <geom name="stabilizer_back" type="box" size="0.03 0.02 0.01" 
+                  pos="-0.12 0 -0.98" material="premium_black" contype="0" conaffinity="0"/>
+            
+            <!-- Professional Mobility Wheels -->
+            <geom name="mobility_wheel_1" type="cylinder" size="0.08 0.04" 
+                  pos="0.11 0 -0.93" euler="0 0 90" material="wheel_rubber" contype="1" conaffinity="1"/>
+            <geom name="mobility_wheel_2" type="cylinder" size="0.08 0.04" 
+                  pos="-0.11 0 -0.93" euler="0 0 90" material="wheel_rubber" contype="1" conaffinity="1"/>
+
+            <!-- Wheel Hubs -->
+            <geom name="hub_1" type="cylinder" size="0.03 0.02" 
+                  pos="0.11 0 -0.93" euler="0 0 90" material="metallic_silver" contype="0" conaffinity="0"/>
+            <geom name="hub_2" type="cylinder" size="0.03 0.02" 
+                  pos="-0.11 0 -0.93" euler="0 0 90" material="metallic_silver" contype="0" conaffinity="0"/>
+            
+            <!-- Ball Collection Hopper -->
+            <body name="ball_hopper" pos="0 -0.25 0.20">
+                <geom name="hopper_main" type="box" size="0.10 0.10 0.08" 
+                      material="premium_black" contype="1" conaffinity="1"/>
+                <geom name="hopper_rim" type="box" size="0.11 0.11 0.01" 
+                      pos="0 0 0.07" material="metallic_silver" contype="0" conaffinity="0"/>
+                
+                <geom name="feed_tube" type="cylinder" size="0.035 0.12" 
+                      pos="0 0.12 -0.04" euler="-15 0 0" material="barrel_chrome" contype="1" conaffinity="1"/>
+                
+                <!-- Ball pusher inside hopper -->
+                <body name="ball_pusher" pos="0 0 0.05">
+                    <geom name="pusher_plate" type="box" size="0.08 0.08 0.01" 
+                          material="premium_black" contype="1" conaffinity="1"/>
+                    <joint name="pusher_joint" type="slide" axis="0 1 0" range="0 0.15"/>
+                </body>
+            </body>
+        </body>
+
+        <!-- PROFESSIONAL PING PONG BALL - POSITIONED AT BARREL EXIT -->
+        <body name="launch_ball" pos="-0.5 0.0 1.25">
+    <freejoint name="ball_free"/>
+    <geom name="ping_pong_ball" type="sphere" size="0.02" density="" material="yellow_red_material" mass="0.0027"/>
+</body>
+    </worldbody>
+
+    <contact>
+        <!-- Professional Ball Physics -->
+        <pair geom1="ping_pong_ball" geom2="table_surface" 
+              solref="0.004 0.3" solimp="0.96 0.99 0.001" friction="0.01 0.005 0.0001"/>
+        
+        <pair geom1="ping_pong_ball" geom2="net_mesh" 
+             solref="0.002 0.2" solimp="0.9 0.95 0.0001" friction="0.8 0.1 0.01"/>
+        
+        <pair geom1="ping_pong_ball" geom2="court_floor" 
+              solref="0.015 0.4" solimp="0.75 0.92 0.001" friction="0.6 0.02 0.001"/>
+              
+        <!-- Professional Launch Mechanism -->
+        <pair geom1="ping_pong_ball" geom2="launch_barrel" 
+              solref="0.01 0.5" solimp="0.9 0.95 0.001" friction="0.2 0.02 0.001"/>
+        
+        
+        <!-- Professional Wheel Contact (Consistent Physics) -->
+        <pair geom1="ping_pong_ball" geom2="wheel_1_body" 
+              solref="0.01 0.5" solimp="0.9 0.95 0.001" friction="0.8 0.05 0.001"/>
+        
+        <pair geom1="ping_pong_ball" geom2="wheel_2_body" 
+              solref="0.01 0.5" solimp="0.9 0.95 0.001" friction="0.8 0.05 0.001"/>
+        
+        <pair geom1="ping_pong_ball" geom2="wheel_3_body" 
+              solref="0.01 0.5" solimp="0.9 0.95 0.001" friction="0.8 0.05 0.001"/>
+
+        <!-- Ball Hopper and Feed System -->
+        <pair geom1="ping_pong_ball" geom2="hopper_main" 
+              solref="0.01 0.7" solimp="0.9 0.95 0.001" friction="0.4 0.02 0.001"/>
+
+        <pair geom1="ping_pong_ball" geom2="feed_tube" 
+              solref="0.005 0.8" solimp="0.95 0.98 0.001" friction="0.2 0.01 0.001"/>
+
+        <!-- Mobility Wheel Ground Contact -->
+        <pair geom1="mobility_wheel_1" geom2="court_floor" 
+              solref="0.01 1" solimp="0.9 0.95 0.001" friction="0.8 0.05 0.001"/>
+        <pair geom1="mobility_wheel_2" geom2="court_floor" 
+              solref="0.01 1" solimp="0.9 0.95 0.001" friction="0.8 0.05 0.001"/>
+    </contact>
+
+    <!-- Professional Motor System -->
+    <actuator>
+        <motor name="wheel_1_motor" joint="wheel_1_joint" gear="400"/>
+        <motor name="wheel_2_motor" joint="wheel_2_joint" gear="350"/>
+        <motor name="wheel_3_motor" joint="wheel_3_joint" gear="350"/>
+        <motor name="pusher_motor" joint="pusher_joint" gear="50"/>
+    </actuator>
+</mujoco>
